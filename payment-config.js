@@ -1,5 +1,5 @@
 window.PAYMENT_CONFIG = {
-  apiBaseUrl: "http://127.0.0.1:8787",
+  apiBaseUrl: "https://groceryparlour.onrender.com",
   companyName: "Grocery Parlour",
   description: "Grocery order payment",
 };
