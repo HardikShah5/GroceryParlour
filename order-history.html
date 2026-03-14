@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track Orders | Grocery Parlour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="order-history.css" />
+  </head>
+  <body>
+    <main class="orders-page">
+      <header class="orders-head">
+        <div>
+          <p class="eyebrow">Customer Area</p>
+          <h1>Track Your Orders</h1>
+          <p>Enter your email and/or phone used at checkout.</p>
+        </div>
+        <a href="index.html" class="ghost-btn">Back To Store</a>
+      </header>
+
+      <section class="orders-search panel-lite">
+        <p id="trackError" class="track-error" aria-live="polite"></p>
+        <div class="hero-actions">
+          <a id="signInLink" href="auth.html?next=order-history.html" class="add-btn">Sign In</a>
+          <button id="refreshOrders" class="ghost-btn" type="button" hidden>Refresh Orders</button>
+          <button id="logoutOrders" class="ghost-btn" type="button" hidden>Sign Out</button>
+        </div>
+      </section>
+
+      <section id="ordersList" class="orders-list"></section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js?v=20260309d"></script>
+    <script src="db-store.js?v=20260309d"></script>
+    <script src="order-history.js?v=20260309c"></script>
+  </body>
+</html>

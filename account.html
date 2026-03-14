@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account | Grocery Parlour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="account.css?v=20260309c" />
+  </head>
+  <body>
+    <main class="account-page">
+      <section class="account-card">
+        <div class="account-top">
+          <p class="eyebrow">My Account</p>
+          <button id="editProfileBtn" class="icon-btn" type="button" aria-label="Edit profile">&#9998;</button>
+        </div>
+        <h1>Profile</h1>
+        <p id="accountError" class="account-error" aria-live="polite"></p>
+
+        <div id="accountInfo" class="account-info" hidden>
+          <div class="account-row">
+            <span>Name</span>
+            <strong id="accountName">-</strong>
+            <input id="accountFullNameInput" class="inline-input" type="text" hidden />
+          </div>
+          <div class="account-row">
+            <span>Mobile</span>
+            <strong id="accountPhone">-</strong>
+            <input
+              id="accountPhoneInput"
+              class="inline-input"
+              type="tel"
+              inputmode="numeric"
+              placeholder="10-digit mobile number"
+              hidden
+            />
+          </div>
+          <div class="account-row">
+            <span>Email</span>
+            <strong id="accountEmail">-</strong>
+          </div>
+          <div class="account-row">
+            <span>Role</span>
+            <strong id="accountRole">-</strong>
+          </div>
+        </div>
+
+        <div class="account-actions">
+          <button id="accountSaveBtn" type="button" class="add-btn" hidden>Save</button>
+          <button id="accountCancelBtn" type="button" class="ghost-btn" hidden>Cancel</button>
+          <a href="index.html" class="ghost-btn">Back To Store</a>
+          <a href="order-history.html" class="ghost-btn">Track Orders</a>
+          <a id="accountAdminLink" href="admin.html" class="ghost-btn" hidden>Admin Panel</a>
+          <button id="accountLogout" class="add-btn">Sign Out</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js?v=20260309d"></script>
+    <script src="db-store.js?v=20260309d"></script>
+    <script src="account.js?v=20260309d"></script>
+  </body>
+</html>

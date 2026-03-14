@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grocery Parlour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape bg-shape-1" aria-hidden="true"></div>
+    <div class="bg-shape bg-shape-2" aria-hidden="true"></div>
+
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Fresh Picks Everyday</p>
+        <h1>Grocery Parlour</h1>
+        <p>
+          Browse items by category, check available counts, and add everything you
+          need to your cart.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a href="auth.html" id="authLink" class="ghost-btn">Sign In</a>
+        <button id="logoutBtn" class="ghost-btn" hidden>Sign Out</button>
+        <a href="order-history.html" class="ghost-btn">Track Orders</a>
+        <a href="admin.html" id="adminLink" class="ghost-btn" hidden>Admin Panel</a>
+        <button id="cartToggle" class="cart-toggle" aria-label="Open cart">
+          <span>Cart</span>
+          <strong id="cartCount">0</strong>
+        </button>
+      </div>
+    </header>
+
+    <section class="top-search">
+      <div class="search-wrap">
+        <label for="searchInput" class="search-label">Search products</label>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          placeholder="Search by name or category"
+        />
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="sidebar">
+        <div class="section-head">
+          <h2>Categories</h2>
+          <div class="section-tools">
+            <p id="totalItems"></p>
+            <button
+              id="toggleCategories"
+              class="mobile-cat-toggle"
+              type="button"
+              aria-expanded="true"
+            >
+              Collapse
+            </button>
+          </div>
+        </div>
+        <div id="categories" class="category-list"></div>
+      </section>
+
+      <section class="content">
+        <div class="section-head">
+          <h2>Products</h2>
+          <p id="activeCategoryLabel">All categories</p>
+        </div>
+        <div id="products" class="product-grid"></div>
+      </section>
+    </main>
+
+    <aside id="cartPanel" class="cart-panel" aria-label="Shopping cart">
+      <div class="cart-panel__head">
+        <h3>Your Cart</h3>
+        <button id="closeCart" class="ghost-btn" aria-label="Close cart">Close</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-summary">
+        <p><span>Items</span><strong id="summaryItems">0</strong></p>
+        <p><span>Total</span><strong id="summaryTotal">₹0.00</strong></p>
+      </div>
+      <p id="orderMessage" class="order-msg" aria-live="polite"></p>
+      <button id="placeOrder" class="add-btn full">Place Order</button>
+      <button id="clearCart" class="ghost-btn full">Clear Cart</button>
+    </aside>
+
+    <div id="checkoutModal" class="checkout-modal hidden" aria-hidden="true">
+      <div class="checkout-dialog" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+        <h3 id="checkoutTitle">Checkout Details</h3>
+        <form id="checkoutForm" class="checkout-form">
+          <label>
+            Name
+            <input id="checkoutName" type="text" required />
+          </label>
+          <label>
+            Phone
+            <input id="checkoutPhone" type="tel" required />
+          </label>
+          <label>
+            Email
+            <input id="checkoutEmail" type="email" required />
+          </label>
+          <label>
+            Address (Optional)
+            <textarea id="checkoutAddress" rows="3"></textarea>
+          </label>
+          <p id="checkoutError" class="checkout-error" aria-live="polite"></p>
+          <div class="checkout-actions">
+            <button id="cancelCheckout" type="button" class="ghost-btn">Cancel</button>
+            <button id="confirmPlaceOrder" type="submit" class="add-btn">Confirm Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="supabase-config.js?v=20260309d"></script>
+    <script src="payment-config.js?v=20260309d"></script>
+    <script src="db-store.js?v=20260309d"></script>
+    <script src="script.js?v=20260309d"></script>
+  </body>
+</html>

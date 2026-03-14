@@ -1,0 +1,160 @@
+.detail-page {
+  width: min(980px, 92vw);
+  margin: 2rem auto;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.detail-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 360px) minmax(0, 1fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.detail-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.detail-info h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.detail-meta {
+  margin: 0.45rem 0 1rem;
+  color: var(--muted);
+}
+
+.detail-chip {
+  display: inline-block;
+  padding: 0.22rem 0.58rem;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.detail-stats {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.detail-stats p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+}
+
+.detail-actions {
+  margin-top: 0.9rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.detail-link {
+  text-decoration: none;
+}
+
+.detail-cart-msg {
+  margin: 0.6rem 0 0;
+  color: var(--brand);
+  font-size: 0.9rem;
+}
+
+.detail-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.detail-about {
+  margin-top: 1.2rem;
+}
+
+.detail-about h2 {
+  margin: 0 0 0.45rem;
+}
+
+.detail-about p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.detail-guidance-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.guide-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem 0.8rem;
+  background: #fff;
+}
+
+.guide-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.guide-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.guide-card ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.detail-note {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 780px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-image {
+    height: 260px;
+  }
+
+  .detail-guidance-grid {
+    grid-template-columns: 1fr;
+  }
+}

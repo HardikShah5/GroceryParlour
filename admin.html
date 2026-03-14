@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Grocery Parlour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <main class="admin-wrap">
+      <header class="admin-head">
+        <div>
+          <p class="eyebrow">Control Center</p>
+          <h1>Grocery Parlour Admin</h1>
+          <p>Manage categories, products, stock, and orders.</p>
+          <p id="adminIdentity" class="admin-identity"></p>
+        </div>
+        <div class="hero-actions">
+          <a href="index.html" class="ghost-btn">Back To Store</a>
+          <button id="adminLogoutBtn" class="ghost-btn">Sign Out</button>
+        </div>
+      </header>
+
+      <section class="admin-stats" id="adminStats"></section>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Inventory Alerts</h2>
+          <p id="inventoryAlertSummary" class="panel-meta"></p>
+        </div>
+        <div id="inventoryAlerts" class="list-block"></div>
+      </section>
+
+      <section class="admin-shell">
+        <aside class="admin-menu">
+          <button class="category-item menu-item active" type="button" data-target="orders">
+            <span>Orders</span>
+          </button>
+          <button class="category-item menu-item" type="button" data-target="categories">
+            <span>Categories</span>
+          </button>
+          <button class="category-item menu-item" type="button" data-target="products">
+            <span>Products</span>
+          </button>
+        </aside>
+
+        <section class="admin-content">
+          <section id="section-orders" class="panel admin-section">
+            <h2>Orders</h2>
+            <div id="orderList" class="list-block"></div>
+          </section>
+
+          <section id="section-categories" class="panel admin-section hidden">
+            <h2>Categories</h2>
+            <form id="categoryForm" class="admin-form">
+              <input type="hidden" id="categoryOldName" />
+              <label>
+                Category Name
+                <input id="categoryName" type="text" required />
+              </label>
+              <label>
+                Image URL
+                <input id="categoryImage" type="url" placeholder="https://..." required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="add-btn">Save Category</button>
+                <button type="button" id="resetCategoryForm" class="ghost-btn">Reset</button>
+              </div>
+            </form>
+            <div id="categoryList" class="list-block"></div>
+          </section>
+
+          <section id="section-products" class="panel admin-section hidden">
+            <h2>Products</h2>
+            <form id="productForm" class="admin-form grid-2">
+              <input type="hidden" id="productId" />
+              <label>
+                Product Name
+                <input id="productName" type="text" required />
+              </label>
+              <label>
+                Category
+                <select id="productCategory" required></select>
+              </label>
+              <label>
+                Price (INR)
+                <input id="productPrice" type="number" min="1" step="1" required />
+              </label>
+              <label>
+                Quantity (Stock)
+                <input id="productStock" type="number" min="0" step="1" required />
+              </label>
+              <label class="span-2">
+                Image URL
+                <input id="productImage" type="url" placeholder="https://..." required />
+              </label>
+              <div class="form-actions span-2">
+                <button type="submit" class="add-btn">Save Product</button>
+                <button type="button" id="resetProductForm" class="ghost-btn">Reset</button>
+              </div>
+            </form>
+            <div id="productList" class="table-wrap"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js?v=20260309h"></script>
+    <script src="db-store.js?v=20260309h"></script>
+    <script src="admin.js?v=20260309h"></script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Grocery Parlour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-card">
+        <p class="eyebrow">Account Access</p>
+        <h1>Sign In</h1>
+        <p class="auth-note">First registered account becomes admin automatically.</p>
+
+        <form id="authForm" class="auth-form">
+          <label id="fullNameWrap" style="display: none;">
+            Full Name
+            <input id="fullName" type="text" />
+          </label>
+          <label id="mobileWrap" style="display: none;">
+            Mobile Number
+            <input id="mobile" type="tel" inputmode="numeric" placeholder="10-digit mobile number" />
+          </label>
+          <label>
+            Email
+            <input id="email" type="email" required />
+          </label>
+          <label>
+            Password
+            <input id="password" type="password" minlength="6" required />
+          </label>
+          <p id="authError" class="auth-error" aria-live="polite"></p>
+          <button id="authSubmit" type="submit" class="add-btn full">Sign In</button>
+        </form>
+
+        <div class="auth-actions">
+          <button id="toggleMode" class="ghost-btn">Create new account</button>
+          <a href="index.html" class="ghost-btn">Back To Store</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js?v=20260309d"></script>
+    <script src="db-store.js?v=20260309d"></script>
+    <script src="auth.js?v=20260309c"></script>
+  </body>
+</html>
