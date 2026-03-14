@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: grocery-parlour-payments
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:payments
+    envVars:
+      - key: PAYMENTS_PORT
+        value: 10000
