@@ -1,4 +1,4 @@
 window.SUPABASE_CONFIG = {
-  url: "http://127.0.0.1:54321",
-  publishableKey: "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH",
+  url: "https://pczgxwsxwepqpjibncrb.supabase.co",
+  publishableKey: "sb_publishable_o6I1a8n-lk8kNnxnJTycFw_r3xYdOL1",
 };
