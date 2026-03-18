@@ -4,6 +4,11 @@ const errorEl = document.getElementById("trackError");
 const signInLinkEl = document.getElementById("signInLink");
 const refreshOrdersEl = document.getElementById("refreshOrders");
 const logoutOrdersEl = document.getElementById("logoutOrders");
+const invoiceModalEl = document.getElementById("invoiceModal");
+const invoiceBodyEl = document.getElementById("invoiceBody");
+const downloadInvoicePdfEl = document.getElementById("downloadInvoicePdf");
+
+let activeInvoiceOrder = null;
 
 const currency = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -58,6 +63,9 @@ function renderOrders(orders) {
           <button class="small-btn" type="button" data-action="download-invoice" data-id="${order.id}">
             Download Invoice
           </button>
+          <button class="small-btn" type="button" data-action="preview-invoice" data-id="${order.id}">
+            View Invoice
+          </button>
         </div>
       </article>
     `;
@@ -70,6 +78,15 @@ function renderOrders(orders) {
       const order = orders.find((item) => String(item.id) === String(id));
       if (!order) return;
       downloadInvoice(order);
+    });
+  });
+
+  listEl.querySelectorAll("[data-action='preview-invoice']").forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.id;
+      const order = orders.find((item) => String(item.id) === String(id));
+      if (!order) return;
+      openInvoiceModal(order);
     });
   });
 }
@@ -162,18 +179,103 @@ function buildInvoiceHtml(order) {
 }
 
 function downloadInvoice(order) {
-  const html = buildInvoiceHtml(order);
-  const blob = new Blob([html], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  const orderNumber = String(order.orderNumber || order.id).replaceAll(/[^\w-]/g, "_");
-  link.href = url;
-  link.download = `invoice-${orderNumber}.html`;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+  openInvoiceModal(order);
 }
+
+function buildInvoicePreview(order) {
+  const items = (order.items || [])
+    .map(
+      (item) => `
+      <tr>
+        <td>${escapeHtml(item.name)}</td>
+        <td>${item.qty}</td>
+        <td>${currency.format(item.price)}</td>
+        <td>${currency.format(item.lineTotal)}</td>
+      </tr>
+    `
+    )
+    .join("");
+
+  const orderNumber = escapeHtml(order.orderNumber || order.id);
+  const customerName = escapeHtml(order.customerName || "N/A");
+  const customerEmail = escapeHtml(order.customerEmail || "N/A");
+  const customerPhone = escapeHtml(order.customerPhone || "N/A");
+  const customerAddress = escapeHtml(order.customerAddress || "N/A");
+  const createdAt = new Date(order.createdAt).toLocaleString("en-IN");
+
+  return `
+    <div class="invoice-preview">
+      <h1>Grocery Parlour</h1>
+      <p class="meta">Invoice for order ${orderNumber}</p>
+      <p class="meta">Placed on ${createdAt}</p>
+      <p class="meta">Status: ${escapeHtml(order.status || "New")}</p>
+
+      <h2>Customer Details</h2>
+      <p class="meta">Name: ${customerName}</p>
+      <p class="meta">Email: ${customerEmail}</p>
+      <p class="meta">Phone: ${customerPhone}</p>
+      <p class="meta">Address: ${customerAddress}</p>
+
+      <h2>Items</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Line Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${items || "<tr><td colspan=\"4\">No items</td></tr>"}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="total">Total</td>
+            <td>${currency.format(order.total || 0)}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  `;
+}
+
+function openInvoiceModal(order) {
+  activeInvoiceOrder = order;
+  invoiceBodyEl.innerHTML = buildInvoicePreview(order);
+  invoiceModalEl.classList.remove("hidden");
+}
+
+function closeInvoiceModal() {
+  activeInvoiceOrder = null;
+  invoiceBodyEl.innerHTML = "";
+  invoiceModalEl.classList.add("hidden");
+}
+
+function downloadInvoicePdf(order) {
+  const html = buildInvoiceHtml(order);
+  const popup = window.open("", "_blank", "width=900,height=720");
+  if (!popup) {
+    window.alert("Popup blocked. Please allow popups to download the invoice.");
+    return;
+  }
+  popup.document.open();
+  popup.document.write(html);
+  popup.document.close();
+  popup.focus();
+  popup.onload = () => {
+    popup.print();
+  };
+}
+
+invoiceModalEl.querySelectorAll("[data-action='close-invoice']").forEach((btn) => {
+  btn.addEventListener("click", closeInvoiceModal);
+});
+
+downloadInvoicePdfEl.addEventListener("click", () => {
+  if (!activeInvoiceOrder) return;
+  downloadInvoicePdf(activeInvoiceOrder);
+});
 
 async function loadMyOrders() {
   errorEl.textContent = "";

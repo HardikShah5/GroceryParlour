@@ -36,6 +36,23 @@
       <section id="ordersList" class="orders-list"></section>
     </main>
 
+    <div id="invoiceModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="invoiceTitle">
+      <div class="modal-backdrop" data-action="close-invoice"></div>
+      <div class="modal-card">
+        <header class="modal-header">
+          <h2 id="invoiceTitle">Invoice</h2>
+          <button class="icon-btn" type="button" data-action="close-invoice" aria-label="Close">
+            ✕
+          </button>
+        </header>
+        <div id="invoiceBody" class="modal-body"></div>
+        <footer class="modal-footer">
+          <button class="ghost-btn" type="button" data-action="close-invoice">Close</button>
+          <button class="add-btn" type="button" id="downloadInvoicePdf">Download PDF</button>
+        </footer>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js?v=20260309d"></script>
     <script src="db-store.js?v=20260309d"></script>
