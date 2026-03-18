@@ -110,6 +110,20 @@
   gap: 0.25rem;
 }
 
+.order-actions {
+  margin-top: 12px;
+}
+
+.order-actions .small-btn {
+  background: #f0f3ff;
+  border: 1px solid #c7d2ff;
+  color: #1b2c73;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .empty-orders {
   margin: 0;
   color: var(--muted);
