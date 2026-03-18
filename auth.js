@@ -14,10 +14,26 @@ const submitEl = document.getElementById("authSubmit");
 const toggleModeEl = document.getElementById("toggleMode");
 const forgotPasswordEl = document.getElementById("forgotPassword");
 const titleEl = document.querySelector(".auth-card h1");
+const toastStackEl = document.getElementById("toastStack");
 
 const nextTarget = new URLSearchParams(window.location.search).get("next") || "index.html";
 
 let mode = "signin";
+
+function showToast(message, type = "success") {
+  if (!toastStackEl || !message) return;
+  const toastEl = document.createElement("div");
+  toastEl.className = `toast${type === "error" ? " error" : ""}`;
+  toastEl.textContent = message;
+  toastStackEl.appendChild(toastEl);
+
+  setTimeout(() => {
+    toastEl.classList.add("hide");
+    setTimeout(() => {
+      toastEl.remove();
+    }, 220);
+  }, 2600);
+}
 
 async function getSessionViaStoreOrClient() {
   if (store && typeof store.getSession === "function") {
@@ -113,9 +129,12 @@ if (forgotPasswordEl) {
       const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) throw error;
       noticeEl.textContent = "Password reset email sent. Please check your inbox.";
+      showToast("Reset link sent to your email.");
     } catch (error) {
       console.error(error);
-      errorEl.textContent = error?.message || "Failed to send reset email.";
+      const message = error?.message || "Failed to send reset email.";
+      errorEl.textContent = message;
+      showToast(message, "error");
     }
   });
 }
@@ -138,6 +157,7 @@ formEl.addEventListener("submit", async (event) => {
       const { error } = await client.auth.updateUser({ password });
       if (error) throw error;
       noticeEl.textContent = "Password updated. Please sign in.";
+      showToast("Password updated successfully.");
       mode = "signin";
       window.history.replaceState({}, document.title, window.location.pathname);
       applyMode();
