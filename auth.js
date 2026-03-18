@@ -5,11 +5,14 @@ const fullNameWrapEl = document.getElementById("fullNameWrap");
 const fullNameEl = document.getElementById("fullName");
 const mobileWrapEl = document.getElementById("mobileWrap");
 const mobileEl = document.getElementById("mobile");
+const emailWrapEl = document.getElementById("emailWrap");
 const emailEl = document.getElementById("email");
 const passwordEl = document.getElementById("password");
 const errorEl = document.getElementById("authError");
+const noticeEl = document.getElementById("authNotice");
 const submitEl = document.getElementById("authSubmit");
 const toggleModeEl = document.getElementById("toggleMode");
+const forgotPasswordEl = document.getElementById("forgotPassword");
 const titleEl = document.querySelector(".auth-card h1");
 
 const nextTarget = new URLSearchParams(window.location.search).get("next") || "index.html";
@@ -63,18 +66,30 @@ async function signInViaStoreOrClient(payload) {
 
 function applyMode() {
   const isSignUp = mode === "signup";
+  const isReset = mode === "reset";
   titleEl.textContent = isSignUp ? "Create Account" : "Sign In";
-  submitEl.textContent = isSignUp ? "Create Account" : "Sign In";
+  if (isReset) {
+    titleEl.textContent = "Reset Password";
+  }
+  submitEl.textContent = isSignUp ? "Create Account" : isReset ? "Update Password" : "Sign In";
   toggleModeEl.textContent = isSignUp ? "Already have an account? Sign in" : "Create new account";
+  toggleModeEl.hidden = isReset;
   fullNameWrapEl.style.display = isSignUp ? "grid" : "none";
   fullNameEl.required = isSignUp;
   mobileWrapEl.style.display = isSignUp ? "grid" : "none";
   mobileEl.required = isSignUp;
+  emailWrapEl.style.display = isReset ? "none" : "grid";
+  emailEl.required = !isReset;
+  forgotPasswordEl.hidden = mode !== "signin";
   if (!isSignUp) {
     fullNameEl.value = "";
     mobileEl.value = "";
   }
+  if (isReset) {
+    emailEl.value = "";
+  }
   errorEl.textContent = "";
+  noticeEl.textContent = "";
 }
 
 toggleModeEl.addEventListener("click", () => {
@@ -82,9 +97,33 @@ toggleModeEl.addEventListener("click", () => {
   applyMode();
 });
 
+if (forgotPasswordEl) {
+  forgotPasswordEl.addEventListener("click", async () => {
+    errorEl.textContent = "";
+    noticeEl.textContent = "";
+    const email = emailEl.value.trim();
+    if (!email) {
+      errorEl.textContent = "Please enter your email to reset the password.";
+      return;
+    }
+    try {
+      const client = store?.client;
+      if (!client) throw new Error("Auth client not available.");
+      const redirectTo = `${window.location.origin}/auth.html?reset=1`;
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+      noticeEl.textContent = "Password reset email sent. Please check your inbox.";
+    } catch (error) {
+      console.error(error);
+      errorEl.textContent = error?.message || "Failed to send reset email.";
+    }
+  });
+}
+
 formEl.addEventListener("submit", async (event) => {
   event.preventDefault();
   errorEl.textContent = "";
+  noticeEl.textContent = "";
   submitEl.disabled = true;
 
   const email = emailEl.value.trim();
@@ -93,7 +132,16 @@ formEl.addEventListener("submit", async (event) => {
   const mobile = mobileEl.value.trim().replace(/\D+/g, "");
 
   try {
-    if (mode === "signup") {
+    if (mode === "reset") {
+      const client = store?.client;
+      if (!client) throw new Error("Auth client not available.");
+      const { error } = await client.auth.updateUser({ password });
+      if (error) throw error;
+      noticeEl.textContent = "Password updated. Please sign in.";
+      mode = "signin";
+      window.history.replaceState({}, document.title, window.location.pathname);
+      applyMode();
+    } else if (mode === "signup") {
       if (!/^[0-9]{10}$/.test(mobile)) {
         throw new Error("Please enter a valid 10-digit mobile number.");
       }
@@ -111,8 +159,19 @@ formEl.addEventListener("submit", async (event) => {
   }
 });
 
+function getHashParams() {
+  const hash = window.location.hash.replace(/^#/, "");
+  return new URLSearchParams(hash);
+}
+
 (async () => {
   try {
+    const hashParams = getHashParams();
+    if (hashParams.get("type") === "recovery") {
+      mode = "reset";
+      applyMode();
+      return;
+    }
     const session = await getSessionViaStoreOrClient();
     if (session) {
       window.location.href = nextTarget;

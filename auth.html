@@ -29,7 +29,7 @@
             Mobile Number
             <input id="mobile" type="tel" inputmode="numeric" placeholder="10-digit mobile number" />
           </label>
-          <label>
+          <label id="emailWrap">
             Email
             <input id="email" type="email" required />
           </label>
@@ -37,7 +37,9 @@
             Password
             <input id="password" type="password" minlength="6" required />
           </label>
+          <button id="forgotPassword" class="link-btn" type="button">Forgot password?</button>
           <p id="authError" class="auth-error" aria-live="polite"></p>
+          <p id="authNotice" class="auth-notice" aria-live="polite"></p>
           <button id="authSubmit" type="submit" class="add-btn full">Sign In</button>
         </form>
 
@@ -51,6 +53,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js?v=20260309d"></script>
     <script src="db-store.js?v=20260309d"></script>
-    <script src="auth.js?v=20260309c"></script>
+    <script src="auth.js?v=20260318a"></script>
   </body>
 </html>
