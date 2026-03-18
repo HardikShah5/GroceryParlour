@@ -112,6 +112,10 @@
 
 .order-actions {
   margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .order-actions .small-btn {
